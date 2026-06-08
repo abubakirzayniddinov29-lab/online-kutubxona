@@ -22,6 +22,40 @@ import { MOCK_BOOKS } from "@/lib/mock-data";
 
 type Theme = "light" | "dark" | "sepia";
 
+// Generate sample pages content
+const generatePages = (pageCount: number, title: string, author: string) => {
+  const pages = [];
+  for (let i = 1; i <= pageCount; i++) {
+    pages.push({
+      pageNumber: i,
+      content: `
+        <h2 class="text-2xl font-bold mt-12 mb-6">${i === 1 ? "Chapter One" : `Chapter ${Math.ceil(i / 10)}`}</h2>
+        <p class="mb-6">
+          Page ${i} of ${title} by ${author}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+        <p class="mb-6">
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p class="mb-6">
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+        </p>
+        <p class="mb-6">
+          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.
+        </p>
+        ${i % 3 === 0 ? `
+          <p class="mb-6">
+            It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.
+          </p>
+          <p class="mb-6">
+            The hallway smelt of boiled cabbage and old rag mats. At one end of it a coloured poster, too large for indoor display, had been tacked to the wall. It depicted simply an enormous face, more than a metre wide: the face of a man of about forty-five, with a heavy black moustache and ruggedly handsome features.
+          </p>
+        ` : ""}
+      `,
+    });
+  }
+  return pages;
+};
+
 export default function BookReader() {
   const params = useParams();
   const router = useRouter();
@@ -33,6 +67,7 @@ export default function BookReader() {
   const [lineHeight, setLineHeight] = useState(1.8);
   const [showControls, setShowControls] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   if (!book) {
     return (
@@ -52,6 +87,9 @@ export default function BookReader() {
     );
   }
 
+  const pages = generatePages(Math.min(book.pages, 100), book.title, book.author);
+  const currentPageData = pages[currentPage - 1];
+
   const themeStyles = {
     light: {
       bg: "bg-white",
@@ -68,6 +106,20 @@ export default function BookReader() {
   };
 
   const currentStyle = themeStyles[theme];
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < pages.length) {
+      setCurrentPage(currentPage + 1);
+      window.scrollTo(0, 0);
+    }
+  };
 
   return (
     <div className={`min-h-screen ${currentStyle.bg} transition-colors duration-300`}>
@@ -141,18 +193,27 @@ export default function BookReader() {
             </button>
           </div>
           <nav className="space-y-2">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((chapter) => (
-              <button
-                key={chapter}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                  chapter === 1
-                    ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
-                    : "hover:bg-gray-100 dark:hover:bg-gray-700"
-                } ${currentStyle.text}`}
-              >
-                Chapter {chapter}
-              </button>
-            ))}
+            {Array.from({ length: Math.min(Math.ceil(pages.length / 10), 10) }).map((_, index) => {
+              const chapter = index + 1;
+              const startPage = (chapter - 1) * 10 + 1;
+              return (
+                <button
+                  key={chapter}
+                  onClick={() => {
+                    setCurrentPage(startPage);
+                    setShowSidebar(false);
+                    window.scrollTo(0, 0);
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                    currentPage >= startPage && currentPage < startPage + 10
+                      ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                      : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                  } ${currentStyle.text}`}
+                >
+                  Chapter {chapter}
+                </button>
+              );
+            })}
           </nav>
         </div>
       </aside>
@@ -165,13 +226,20 @@ export default function BookReader() {
       >
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            key={currentPage}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
             className={`${currentStyle.text}`}
           >
-            <h1 className="text-4xl font-bold mb-4">{book.title}</h1>
-            <p className="text-lg opacity-75 mb-12">by {book.author}</p>
+            {currentPage === 1 && (
+              <>
+                <h1 className="text-4xl font-bold mb-4">{book.title}</h1>
+                <p className="text-lg opacity-75 mb-12">by {book.author}</p>
+                <p className="mb-12">{book.description}</p>
+              </>
+            )}
 
             <article
               style={{
@@ -179,30 +247,37 @@ export default function BookReader() {
                 lineHeight: lineHeight,
               }}
               className="font-serif"
-            >
-              <p className="mb-6">
-                {book.description} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </p>
-              <p className="mb-6">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-              <p className="mb-6">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-              </p>
-              <p className="mb-6">
-                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.
-              </p>
-              <h2 className="text-2xl font-bold mt-12 mb-6">Chapter One</h2>
-              <p className="mb-6">
-                It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.
-              </p>
-              <p className="mb-6">
-                The hallway smelt of boiled cabbage and old rag mats. At one end of it a coloured poster, too large for indoor display, had been tacked to the wall. It depicted simply an enormous face, more than a metre wide: the face of a man of about forty-five, with a heavy black moustache and ruggedly handsome features.
-              </p>
-            </article>
+              dangerouslySetInnerHTML={{ __html: currentPageData.content }}
+            />
           </motion.div>
         </div>
       </main>
+
+      {/* Left page turn area */}
+      <button
+        onClick={goToPreviousPage}
+        disabled={currentPage === 1}
+        className={`fixed left-0 top-16 bottom-0 w-1/4 flex items-center justify-center transition-all duration-200 ${
+          currentPage === 1 ? "opacity-0 cursor-not-allowed" : "opacity-0 hover:opacity-100"
+        }`}
+      >
+        <div className={`p-4 rounded-full ${currentStyle.bg} shadow-lg`}>
+          <ChevronLeft className={`h-8 w-8 ${currentStyle.text}`} />
+        </div>
+      </button>
+
+      {/* Right page turn area */}
+      <button
+        onClick={goToNextPage}
+        disabled={currentPage === pages.length}
+        className={`fixed right-0 top-16 bottom-0 w-1/4 flex items-center justify-center transition-all duration-200 ${
+          currentPage === pages.length ? "opacity-0 cursor-not-allowed" : "opacity-0 hover:opacity-100"
+        }`}
+      >
+        <div className={`p-4 rounded-full ${currentStyle.bg} shadow-lg`}>
+          <ChevronRight className={`h-8 w-8 ${currentStyle.text}`} />
+        </div>
+      </button>
 
       <motion.footer
         initial={{ opacity: 0, y: 20 }}
@@ -245,13 +320,23 @@ export default function BookReader() {
             </div>
             <div className="flex items-center gap-2">
               <button
-                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
+                onClick={goToPreviousPage}
+                disabled={currentPage === 1}
+                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text} ${
+                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <span className={`font-medium ${currentStyle.text}`}>1 / {book.pages}</span>
+              <span className={`font-medium ${currentStyle.text}`}>
+                {currentPage} / {pages.length}
+              </span>
               <button
-                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
+                onClick={goToNextPage}
+                disabled={currentPage === pages.length}
+                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text} ${
+                  currentPage === pages.length ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
