@@ -42,25 +42,25 @@ export default function Header() {
               href="/"
               className="text-gray-700 dark:text-gray-300 hover:text-blue-600 font-medium transition-colors"
             >
-              Home
+              Bosh sahifa
             </Link>
             <Link
               href="/explore"
               className="text-gray-700 dark:text-gray-300 hover:text-blue-600 font-medium transition-colors"
             >
-              Explore
+              Izlash
             </Link>
             <Link
               href="/my-books"
               className="text-gray-700 dark:text-gray-300 hover:text-blue-600 font-medium transition-colors"
             >
-              My Books
+              Mening kitoblarim
             </Link>
             <Link
               href="/authors"
               className="text-gray-700 dark:text-gray-300 hover:text-blue-600 font-medium transition-colors"
             >
-              Authors
+              Mualliflar
             </Link>
           </nav>
 
@@ -69,7 +69,7 @@ export default function Header() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search books..."
+                placeholder="Kitoblarni qidiring..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64 transition-all"
@@ -126,7 +126,7 @@ export default function Header() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search books..."
+                placeholder="Kitoblarni qidiring..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -138,28 +138,28 @@ export default function Header() {
                 className="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Home
+                Bosh sahifa
               </Link>
               <Link
                 href="/explore"
                 className="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Explore
+                Izlash
               </Link>
               <Link
                 href="/my-books"
                 className="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                My Books
+                Mening kitoblarim
               </Link>
               <Link
                 href="/authors"
                 className="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Authors
+                Mualliflar
               </Link>
             </nav>
           </div>

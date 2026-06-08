@@ -40,7 +40,7 @@ export default function BookCard({ book, onRead }: BookCardProps) {
               className="mb-2 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
             >
               <BookOpen size={16} />
-              Read Now
+              O'qish
             </button>
             <button
               onClick={() => setIsFavorite(!isFavorite)}
@@ -54,7 +54,7 @@ export default function BookCard({ book, onRead }: BookCardProps) {
                 size={16}
                 fill={isFavorite ? "currentColor" : "none"}
               />
-              {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+              {isFavorite ? "Sevimlilardan olib tashlash" : "Sevimlilarga qo'shish"}
             </button>
           </div>
         </div>

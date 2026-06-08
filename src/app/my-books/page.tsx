@@ -13,10 +13,10 @@ export default function MyBooksPage() {
   const [activeTab, setActiveTab] = useState<Tab>('reading');
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: 'reading', label: 'Continue Reading', icon: <BookOpen className="w-5 h-5" /> },
-    { id: 'favorites', label: 'Favorites', icon: <Heart className="w-5 h-5" /> },
-    { id: 'recent', label: 'Recently Viewed', icon: <Clock className="w-5 h-5" /> },
-    { id: 'wishlist', label: 'Wishlist', icon: <TrendingUp className="w-5 h-5" /> },
+    { id: 'reading', label: 'O'qishni davom ettirish', icon: <BookOpen className="w-5 h-5" /> },
+    { id: 'favorites', label: 'Sevimlilar', icon: <Heart className="w-5 h-5" /> },
+    { id: 'recent', label: 'Yaqinda ko'rilgan', icon: <Clock className="w-5 h-5" /> },
+    { id: 'wishlist', label: 'Istaklar ro'yxati', icon: <TrendingUp className="w-5 h-5" /> },
   ];
 
   const displayBooks = MOCK_BOOKS.slice(0, 6);
@@ -31,10 +31,10 @@ export default function MyBooksPage() {
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            My Books
+            Mening kitoblarim
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Track your reading journey and manage your library
+            O'qish sayohatingizni kuzating va kutubxonangizni boshqaring
           </p>
         </motion.div>
 
@@ -75,10 +75,10 @@ export default function MyBooksPage() {
             <div className="text-center py-20">
               <div className="text-gray-400 text-6xl mb-4">📚</div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                No books in this list yet
+                Bu ro'yxatda hali kitob yo'q
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Start exploring and add books to your library
+                Kuzatishni boshlang va kutubxonangizga kitob qo'shing
               </p>
             </div>
           )}

@@ -33,10 +33,10 @@ export default function AuthorsPage() {
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Authors
+            Mualliflar
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover and explore your favorite authors
+            Sevimli mualliflaringizni kashf eting va ularni kuzating
           </p>
         </motion.div>
 
@@ -47,7 +47,7 @@ export default function AuthorsPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
-                  placeholder="Search authors..."
+                  placeholder="Mualliflarni qidiring..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -76,7 +76,7 @@ export default function AuthorsPage() {
                         {author.name}
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                        {author.books} {author.books === 1 ? 'Book' : 'Books'} Published
+                        {author.books} {author.books === 1 ? 'kitob' : 'kitob'} nashr etilgan
                       </p>
                       <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3">
                         {author.bio}
@@ -93,7 +93,7 @@ export default function AuthorsPage() {
               onClick={() => setSelectedAuthor(null)}
               className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium mb-6"
             >
-              ← Back to Authors
+              ← Mualliflarga qaytish
             </button>
             {selectedAuthorData && (
               <motion.div
@@ -112,7 +112,7 @@ export default function AuthorsPage() {
                       {selectedAuthorData.name}
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      {selectedAuthorData.books} {selectedAuthorData.books === 1 ? 'Book' : 'Books'} Published
+                      {selectedAuthorData.books} {selectedAuthorData.books === 1 ? 'kitob' : 'kitob'} nashr etilgan
                     </p>
                     <p className="text-gray-700 dark:text-gray-300 max-w-2xl">
                       {selectedAuthorData.bio}
@@ -123,7 +123,7 @@ export default function AuthorsPage() {
             )}
             <div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Books by {selectedAuthorData?.name}
+                {selectedAuthorData?.name} ning kitoblari
               </h3>
               {authorBooks.length > 0 ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
@@ -142,10 +142,10 @@ export default function AuthorsPage() {
                 <div className="text-center py-20">
                   <div className="text-gray-400 text-6xl mb-4">📚</div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                    No books found
+                    Kitob topilmadi
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    This author hasn&apos;t published any books yet
+                    Bu muallif hali hech qanday kitob nashr etmagan
                   </p>
                 </div>
               )}

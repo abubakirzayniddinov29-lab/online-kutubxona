@@ -30,10 +30,10 @@ export default function ExplorePage() {
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Explore Books
+            Kitoblarni kashf eting
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover thousands of amazing books across all genres
+            Barcha janrlardagi minglab ajoyib kitoblarni toping
           </p>
         </motion.div>
 
@@ -43,7 +43,7 @@ export default function ExplorePage() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search books by title or author..."
+                placeholder="Sarlavha yoki muallif bo'yicha kitob qidiring..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -51,7 +51,7 @@ export default function ExplorePage() {
             </div>
             <button className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
               <Filter className="w-5 h-5" />
-              Filters
+              Filtrlar
             </button>
           </div>
         </div>
@@ -59,7 +59,7 @@ export default function ExplorePage() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Categories
+              Bo'limlar
             </h2>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -71,7 +71,7 @@ export default function ExplorePage() {
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
             >
-              All
+              Hammasi
             </button>
             {CATEGORIES.map((category) => (
               <button
@@ -92,7 +92,7 @@ export default function ExplorePage() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              {filteredBooks.length} {filteredBooks.length === 1 ? 'Book' : 'Books'} Found
+              {filteredBooks.length} {filteredBooks.length === 1 ? 'kitob' : 'kitob'} topildi
             </h2>
           </div>
           {filteredBooks.length > 0 ? (
@@ -112,10 +112,10 @@ export default function ExplorePage() {
             <div className="text-center py-20">
               <div className="text-gray-400 text-6xl mb-4">📚</div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                No books found
+                Kitob topilmadi
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Try adjusting your search or filters
+                Qidiruv yoki filtrlarni o'zgartirib ko'ring
               </p>
             </div>
           )}

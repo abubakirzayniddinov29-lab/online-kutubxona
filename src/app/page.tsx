@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import BookCard from "@/components/BookCard";
 import { MOCK_BOOKS, CATEGORIES } from "@/lib/mock-data";
@@ -9,6 +10,7 @@ import { ArrowRight, TrendingUp, Star, BookOpen } from "lucide-react";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const router = useRouter();
 
   const featuredBooks = MOCK_BOOKS.filter((book) => book.isFeatured);
   const trendingBooks = MOCK_BOOKS.filter((book) => book.isTrending);
@@ -30,9 +32,9 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
               >
-                Your Next Great Read
+                Keyingi ajoyib
                 <br />
-                Awaits
+                kitobingiz shu yerd
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -40,15 +42,16 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-lg md:text-xl text-blue-100 mb-8"
               >
-                Discover thousands of books, read online, and build your personal library with BookVerse
+                BookVerse bilan minglab kitoblarni kashf eting, onlayn o'qing va shaxsiy kutubxonangizni yarating
               </motion.p>
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
+                onClick={() => router.push("/explore")}
                 className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-blue-600 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Explore Library
+                Kutubxonani ko'rish
                 <ArrowRight size={20} />
               </motion.button>
             </div>
@@ -63,7 +66,7 @@ export default function Home() {
           <div className="flex items-center gap-2 mb-6">
             <TrendingUp className="h-6 w-6 text-orange-500" />
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-              Trending Now
+              Trenddagi kitoblar
             </h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -82,7 +85,7 @@ export default function Home() {
 
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Browse Categories
+            Bo'limlar
           </h2>
           <div className="grid grid-cols-5 sm:grid-cols-11 gap-2">
             <motion.button
@@ -97,7 +100,7 @@ export default function Home() {
               }`}
             >
               <span className="text-2xl">📚</span>
-              <span className="text-xs font-medium">All</span>
+              <span className="text-xs font-medium">Hammasi</span>
             </motion.button>
             {CATEGORIES.map((category, index) => (
               <motion.button
@@ -145,10 +148,10 @@ export default function Home() {
               <div className="text-center py-16">
                 <div className="text-gray-400 text-6xl mb-4">📖</div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  No books in this category yet
+                  Bu bo'limda hali kitob yo'q
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Check back soon for new additions!
+                  Tez orada yangi qo'shilishlarini kuting!
                 </p>
               </div>
             )}
@@ -158,7 +161,7 @@ export default function Home() {
             <div className="flex items-center gap-2 mb-6">
               <Star className="h-6 w-6 text-yellow-500" />
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                Featured Books
+                Tanlangan kitoblar
               </h2>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -181,21 +184,21 @@ export default function Home() {
             {[
               {
                 icon: <BookOpen className="h-10 w-10 text-blue-600" />,
-                title: "Read Anywhere",
+                title: "Istagan joyingizda o'qing",
                 description:
-                  "Access your library from any device, anytime. Your reading progress syncs automatically.",
+                  "Kutubxonangizga istalgan qurilmadan, istalgan vaqtda kirish. O'qish jarayoniz avtomatik ravishda sinxronlanadi.",
               },
               {
                 icon: <Star className="h-10 w-10 text-purple-600" />,
-                title: "Personalized Recommendations",
+                title: "Shaxsiy tavsiyalar",
                 description:
-                  "Discover books tailored to your taste with our intelligent recommendation system.",
+                  "Aqlli tavsiya tizimi bilan ta'mmopingizga mos keladigan kitoblarni kashf eting.",
               },
               {
                 icon: <TrendingUp className="h-10 w-10 text-orange-600" />,
-                title: "Reading Goals",
+                title: "O'qish maqsadlari",
                 description:
-                  "Set reading goals, track your progress, and earn achievement badges.",
+                  "O'qish maqsadlarini belgilang, taraqqiyotingizni kuzating va yutuq belgilari oling.",
               },
             ].map((feature, index) => (
               <motion.div
@@ -230,29 +233,29 @@ export default function Home() {
                 </span>
               </div>
               <p className="text-gray-600 dark:text-gray-400">
-                Your gateway to a world of literature. Read, discover, and grow with BookVerse.
+                Adabiyot dunyosiga eshiklaringiz. BookVerse bilan o'qing, kashf eting va rivojlaning.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Explore</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Izlash</h4>
               <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Browse Books</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Categories</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">New Releases</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Best Sellers</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Kitoblarni ko'rish</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Bo'limlar</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Yangi chiqishlar</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Sotuvdagi kitoblar</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Company</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Kompaniya</h4>
               <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-                <li><a href="#" className="hover:text-blue-600 transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Biz haqimizda</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Ish o'rinlari</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Aloqa</a></li>
+                <li><a href="#" className="hover:text-blue-600 transition-colors">Maxfiylik siyosati</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Connect</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Bog'lanish</h4>
               <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                 <li><a href="#" className="hover:text-blue-600 transition-colors">Twitter</a></li>
                 <li><a href="#" className="hover:text-blue-600 transition-colors">Instagram</a></li>
@@ -262,7 +265,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-gray-600 dark:text-gray-400">
-            <p>&copy; 2024 BookVerse. All rights reserved.</p>
+            <p>&copy; 2024 BookVerse. Barcha huquqlar himoyalangan.</p>
           </div>
         </div>
       </footer>
