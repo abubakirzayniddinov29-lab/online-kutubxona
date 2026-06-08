@@ -91,20 +91,20 @@ export default function Home() {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
             Browse Categories
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-2">
             <motion.button
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0 }}
               onClick={() => setSelectedCategory(null)}
-              className={`flex flex-col items-center gap-2 rounded-2xl p-6 transition-all ${
+              className={`flex flex-col items-center gap-1 rounded-xl p-3 transition-all ${
                 selectedCategory === null
                   ? "bg-blue-600 text-white shadow-lg"
                   : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md"
               }`}
             >
-              <span className="text-3xl">📚</span>
-              <span className="text-sm font-medium">All</span>
+              <span className="text-2xl">📚</span>
+              <span className="text-xs font-medium">All</span>
             </motion.button>
             {CATEGORIES.map((category, index) => (
               <motion.button
@@ -117,14 +117,14 @@ export default function Home() {
                     selectedCategory === category.id ? null : category.id
                   );
                 }}
-                className={`flex flex-col items-center gap-2 rounded-2xl p-6 transition-all ${
+                className={`flex flex-col items-center gap-1 rounded-xl p-3 transition-all ${
                   selectedCategory === category.id
                     ? "bg-blue-600 text-white shadow-lg"
                     : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md"
                 }`}
               >
-                <span className="text-3xl">{category.icon}</span>
-                <span className="text-sm font-medium">{category.name}</span>
+                <span className="text-2xl">{category.icon}</span>
+                <span className="text-xs font-medium">{category.name}</span>
               </motion.button>
             ))}
           </div>
