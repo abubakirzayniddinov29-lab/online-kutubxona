@@ -14,7 +14,38 @@ interface BookCardProps {
 
 export default function BookCard({ book, onRead }: BookCardProps) {
   const router = useRouter();
-  const [isFavorite, setIsFavorite] = useState(false);
+  
+  // Check localStorage for initial favorite state
+  const [isFavorite, setIsFavorite] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const favorites = localStorage.getItem('favoriteBooks');
+      return favorites ? JSON.parse(favorites).includes(book.id) : false;
+    }
+    return false;
+  });
+
+  // Toggle favorite and update localStorage
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking favorite
+    let favorites: string[] = [];
+    if (typeof window !== 'undefined') {
+      const storedFavorites = localStorage.getItem('favoriteBooks');
+      favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+    }
+
+    if (isFavorite) {
+      favorites = favorites.filter(id => id !== book.id);
+    } else {
+      favorites.push(book.id);
+    }
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('favoriteBooks', JSON.stringify(favorites));
+      // Dispatch custom event to notify other components
+      window.dispatchEvent(new Event('favoriteChanged'));
+    }
+    setIsFavorite(!isFavorite);
+  };
 
   const handleRead = () => {
     router.push(`/read/${book.id}`);
@@ -33,28 +64,25 @@ export default function BookCard({ book, onRead }: BookCardProps) {
           height={360}
           className="h-[300px] w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
+        {/* Top-right favorite button */}
+        <button
+          onClick={toggleFavorite}
+          className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm transition-all ${
+            isFavorite
+              ? "bg-red-500/90 text-white hover:bg-red-600"
+              : "bg-black/50 text-white hover:bg-black/70"
+          }`}
+        >
+          <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
+        </button>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="absolute bottom-0 left-0 right-0 p-4">
             <button
               onClick={handleRead}
-              className="mb-2 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
             >
               <BookOpen size={16} />
               O'qish
-            </button>
-            <button
-              onClick={() => setIsFavorite(!isFavorite)}
-              className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-all ${
-                isFavorite
-                  ? "bg-red-500 hover:bg-red-600"
-                  : "bg-white/20 hover:bg-white/30"
-              }`}
-            >
-              <Heart
-                size={16}
-                fill={isFavorite ? "currentColor" : "none"}
-              />
-              {isFavorite ? "Sevimlilardan olib tashlash" : "Sevimlilarga qo'shish"}
             </button>
           </div>
         </div>

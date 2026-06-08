@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import BookCard from '@/components/BookCard';
 import { MOCK_BOOKS } from '@/lib/mock-data';
@@ -11,6 +11,41 @@ type Tab = 'reading' | 'favorites' | 'recent' | 'wishlist';
 
 export default function MyBooksPage() {
   const [activeTab, setActiveTab] = useState<Tab>('reading');
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+
+  // Function to load favorites from localStorage
+  const loadFavorites = () => {
+    if (typeof window !== 'undefined') {
+      const storedFavorites = localStorage.getItem('favoriteBooks');
+      setFavoriteIds(storedFavorites ? JSON.parse(storedFavorites) : []);
+    }
+  };
+
+  // Load favorites on mount
+  useEffect(() => {
+    loadFavorites();
+  }, []);
+
+  // Listen for storage changes (from other tabs/windows)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      loadFavorites();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also listen for custom event from BookCard
+    const handleFavoriteChange = () => {
+      loadFavorites();
+    };
+
+    window.addEventListener('favoriteChanged', handleFavoriteChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('favoriteChanged', handleFavoriteChange);
+    };
+  }, []);
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'reading', label: "O'qishni davom ettirish", icon: <BookOpen className="w-5 h-5" /> },
@@ -19,13 +54,13 @@ export default function MyBooksPage() {
     { id: 'wishlist', label: "Istaklar ro'yxati", icon: <TrendingUp className="w-5 h-5" /> },
   ];
 
-  // Simulate different book lists for each tab
+  // Get books for each tab
   const getBooksForTab = (tab: Tab) => {
     switch (tab) {
       case 'reading':
         return MOCK_BOOKS.slice(0, 4);
       case 'favorites':
-        return MOCK_BOOKS.slice(4, 9);
+        return MOCK_BOOKS.filter(book => favoriteIds.includes(book.id));
       case 'recent':
         return MOCK_BOOKS.slice(9, 14);
       case 'wishlist':
@@ -68,6 +103,11 @@ export default function MyBooksPage() {
               >
                 {tab.icon}
                 {tab.label}
+                {tab.id === 'favorites' && favoriteIds.length > 0 && (
+                  <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                    {favoriteIds.length}
+                  </span>
+                )}
               </button>
             ))}
           </div>
@@ -95,12 +135,16 @@ export default function MyBooksPage() {
             </motion.div>
           ) : (
             <div className="text-center py-20">
-              <div className="text-gray-400 text-6xl mb-4">📚</div>
+              <div className="text-gray-400 text-6xl mb-4">
+                {activeTab === 'favorites' ? '❤️' : '📚'}
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 Bu ro'yxatda hali kitob yo'q
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Kuzatishni boshlang va kutubxonangizga kitob qo'shing
+                {activeTab === 'favorites' 
+                  ? "Sevimli kitoblaringizni qo'shish uchun yurakcha tugmasini bosing" 
+                  : "Kuzatishni boshlang va kutubxonangizga kitob qo'shing"}
               </p>
             </div>
           )}
