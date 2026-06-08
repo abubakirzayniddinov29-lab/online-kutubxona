@@ -26,7 +26,10 @@ export default function BookCard({ book, onRead }: BookCardProps) {
 
   // Toggle favorite and update localStorage
   const toggleFavorite = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click when clicking favorite
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Toggling favorite for:', book.id);
+    
     let favorites: string[] = [];
     if (typeof window !== 'undefined') {
       const storedFavorites = localStorage.getItem('favoriteBooks');
@@ -41,6 +44,7 @@ export default function BookCard({ book, onRead }: BookCardProps) {
 
     if (typeof window !== 'undefined') {
       localStorage.setItem('favoriteBooks', JSON.stringify(favorites));
+      console.log('Favorites updated:', favorites);
       // Dispatch custom event to notify other components
       window.dispatchEvent(new Event('favoriteChanged'));
     }
@@ -67,13 +71,13 @@ export default function BookCard({ book, onRead }: BookCardProps) {
         {/* Top-right favorite button */}
         <button
           onClick={toggleFavorite}
-          className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm transition-all ${
+          className={`absolute top-3 right-3 p-2.5 rounded-full backdrop-blur-md transition-all z-10 ${
             isFavorite
-              ? "bg-red-500/90 text-white hover:bg-red-600"
-              : "bg-black/50 text-white hover:bg-black/70"
+              ? "bg-red-500/95 text-white hover:bg-red-600 shadow-lg"
+              : "bg-black/60 text-white hover:bg-black/80"
           }`}
         >
-          <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
+          <Heart size={22} fill={isFavorite ? "currentColor" : "none"} />
         </button>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="absolute bottom-0 left-0 right-0 p-4">
