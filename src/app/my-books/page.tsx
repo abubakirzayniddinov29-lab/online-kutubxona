@@ -13,10 +13,10 @@ export default function MyBooksPage() {
   const [activeTab, setActiveTab] = useState<Tab>('reading');
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: 'reading', label: 'O'qishni davom ettirish', icon: <BookOpen className="w-5 h-5" /> },
+    { id: 'reading', label: "O'qishni davom ettirish", icon: <BookOpen className="w-5 h-5" /> },
     { id: 'favorites', label: 'Sevimlilar', icon: <Heart className="w-5 h-5" /> },
-    { id: 'recent', label: 'Yaqinda ko'rilgan', icon: <Clock className="w-5 h-5" /> },
-    { id: 'wishlist', label: 'Istaklar ro'yxati', icon: <TrendingUp className="w-5 h-5" /> },
+    { id: 'recent', label: "Yaqinda ko'rilgan", icon: <Clock className="w-5 h-5" /> },
+    { id: 'wishlist', label: "Istaklar ro'yxati", icon: <TrendingUp className="w-5 h-5" /> },
   ];
 
   const displayBooks = MOCK_BOOKS.slice(0, 6);
