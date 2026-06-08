@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Book } from "@/lib/types";
 import { Star, Heart, BookOpen } from "lucide-react";
+import { useState } from "react";
 
 interface BookCardProps {
   book: Book;
@@ -13,6 +14,7 @@ interface BookCardProps {
 
 export default function BookCard({ book, onRead }: BookCardProps) {
   const router = useRouter();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleRead = () => {
     router.push(`/read/${book.id}`);
@@ -40,9 +42,19 @@ export default function BookCard({ book, onRead }: BookCardProps) {
               <BookOpen size={16} />
               Read Now
             </button>
-            <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-white/20 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/30">
-              <Heart size={16} />
-              Add to Favorites
+            <button
+              onClick={() => setIsFavorite(!isFavorite)}
+              className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-all ${
+                isFavorite
+                  ? "bg-red-500 hover:bg-red-600"
+                  : "bg-white/20 hover:bg-white/30"
+              }`}
+            >
+              <Heart
+                size={16}
+                fill={isFavorite ? "currentColor" : "none"}
+              />
+              {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
             </button>
           </div>
         </div>
