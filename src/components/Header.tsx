@@ -74,9 +74,12 @@ export default function Header() {
                 <Moon className="h-5 w-5 text-gray-700 dark:text-gray-300" />
               )}
             </button>
-            <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <Link
+              href="/profile"
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
               <User className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-            </button>
+            </Link>
           </div>
 
           <div className="flex md:hidden items-center gap-2">
@@ -139,6 +142,13 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Mualliflar
+              </Link>
+              <Link
+                href="/profile"
+                className="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Profil
               </Link>
             </nav>
           </div>
