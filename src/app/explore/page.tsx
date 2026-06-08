@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import BookCard from '@/components/BookCard';
 import { MOCK_BOOKS, CATEGORIES } from '@/lib/mock-data';
@@ -8,8 +9,15 @@ import { motion } from 'framer-motion';
 import { Search, Filter } from 'lucide-react';
 
 export default function ExplorePage() {
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get('q') || '';
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+
+  useEffect(() => {
+    const query = searchParams.get('q') || '';
+    setSearchQuery(query);
+  }, [searchParams]);
 
   const filteredBooks = MOCK_BOOKS.filter(book => {
     const matchesCategory = selectedCategory ? book.category === selectedCategory : true;
