@@ -8,9 +8,6 @@ import {
   Sun,
   Moon,
   Coffee,
-  Type,
-  Minus,
-  Plus,
   ChevronLeft,
   ChevronRight,
   Highlighter,
@@ -63,8 +60,6 @@ export default function BookReader() {
   const book = MOCK_BOOKS.find((b) => b.id === bookId);
 
   const [theme, setTheme] = useState<Theme>("light");
-  const [fontSize, setFontSize] = useState(18);
-  const [lineHeight, setLineHeight] = useState(1.8);
   const [showControls, setShowControls] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -243,8 +238,8 @@ export default function BookReader() {
 
             <article
               style={{
-                fontSize: `${fontSize}px`,
-                lineHeight: lineHeight,
+                fontSize: "18px",
+                lineHeight: 1.8,
               }}
               className="font-serif"
               dangerouslySetInnerHTML={{ __html: currentPageData.content }}
@@ -290,36 +285,6 @@ export default function BookReader() {
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setFontSize(Math.max(14, fontSize - 1))}
-                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
-              >
-                <Minus className="h-5 w-5" />
-              </button>
-              <div className="flex items-center gap-2 px-3">
-                <Type className={`h-5 w-5 ${currentStyle.text}`} />
-                <span className={`font-medium ${currentStyle.text}`}>{fontSize}px</span>
-              </div>
-              <button
-                onClick={() => setFontSize(Math.min(28, fontSize + 1))}
-                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
-              >
-                <Plus className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="flex items-center gap-4">
-              <button
-                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
-              >
-                <Highlighter className="h-5 w-5" />
-              </button>
-              <button
-                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
-              >
-                <StickyNote className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
                 onClick={goToPreviousPage}
                 disabled={currentPage === 1}
                 className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text} ${
@@ -339,6 +304,18 @@ export default function BookReader() {
                 }`}
               >
                 <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="flex items-center gap-4">
+              <button
+                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
+              >
+                <Highlighter className="h-5 w-5" />
+              </button>
+              <button
+                className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${currentStyle.text}`}
+              >
+                <StickyNote className="h-5 w-5" />
               </button>
             </div>
           </div>
