@@ -19,7 +19,23 @@ export default function MyBooksPage() {
     { id: 'wishlist', label: "Istaklar ro'yxati", icon: <TrendingUp className="w-5 h-5" /> },
   ];
 
-  const displayBooks = MOCK_BOOKS.slice(0, 6);
+  // Simulate different book lists for each tab
+  const getBooksForTab = (tab: Tab) => {
+    switch (tab) {
+      case 'reading':
+        return MOCK_BOOKS.slice(0, 4);
+      case 'favorites':
+        return MOCK_BOOKS.slice(4, 9);
+      case 'recent':
+        return MOCK_BOOKS.slice(9, 14);
+      case 'wishlist':
+        return MOCK_BOOKS.slice(14, 19);
+      default:
+        return [];
+    }
+  };
+
+  const displayBooks = getBooksForTab(activeTab);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -59,7 +75,13 @@ export default function MyBooksPage() {
 
         <div>
           {displayBooks.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
+            >
               {displayBooks.map((book, index) => (
                 <motion.div
                   key={book.id}
@@ -70,7 +92,7 @@ export default function MyBooksPage() {
                   <BookCard book={book} />
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
             <div className="text-center py-20">
               <div className="text-gray-400 text-6xl mb-4">📚</div>
