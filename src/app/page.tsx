@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Header from "@/components/Header";
 import BookCard from "@/components/BookCard";
 import { MOCK_BOOKS, CATEGORIES } from "@/lib/mock-data";
@@ -9,19 +9,12 @@ import { ArrowRight, TrendingUp, Star, BookOpen } from "lucide-react";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const booksSectionRef = useRef<HTMLDivElement>(null);
 
   const featuredBooks = MOCK_BOOKS.filter((book) => book.isFeatured);
   const trendingBooks = MOCK_BOOKS.filter((book) => book.isTrending);
   const filteredBooks = selectedCategory
     ? MOCK_BOOKS.filter((book) => book.category === selectedCategory)
     : MOCK_BOOKS;
-
-  useEffect(() => {
-    if (selectedCategory && booksSectionRef.current) {
-      booksSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [selectedCategory]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -130,40 +123,39 @@ export default function Home() {
           </div>
         </section>
 
-        <div ref={booksSectionRef}>
-          {selectedCategory ? (
-            <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                {CATEGORIES.find((c) => c.id === selectedCategory)?.name}
-              </h2>
-              {filteredBooks.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                  {filteredBooks.map((book, index) => (
-                    <motion.div
-                      key={book.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      <BookCard book={book} />
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16">
-                  <div className="text-gray-400 text-6xl mb-4">📖</div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                    No books in this category yet
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Check back soon for new additions!
-                  </p>
-                </div>
-              )}
-            </section>
-          ) : (
-            <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-12">
-              <div className="flex items-center gap-2 mb-6">
+        {selectedCategory ? (
+          <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+              {CATEGORIES.find((c) => c.id === selectedCategory)?.name}
+            </h2>
+            {filteredBooks.length > 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                {filteredBooks.map((book, index) => (
+                  <motion.div
+                    key={book.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <BookCard book={book} />
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <div className="text-gray-400 text-6xl mb-4">📖</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  No books in this category yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Check back soon for new additions!
+                </p>
+              </div>
+            )}
+          </section>
+        ) : (
+          <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-12">
+            <div className="flex items-center gap-2 mb-6">
               <Star className="h-6 w-6 text-yellow-500" />
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
                 Featured Books
@@ -182,8 +174,7 @@ export default function Home() {
               ))}
             </div>
           </section>
-          )}
-        </div>
+        )}
 
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
