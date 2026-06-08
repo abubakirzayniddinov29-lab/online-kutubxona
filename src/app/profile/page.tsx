@@ -43,7 +43,7 @@ export default function ProfilePage() {
     },
     { 
       id: 'pages', 
-      value: totalPages.toLocaleString(), 
+      value: totalPages, 
       label: 'Jami sahifalar', 
       icon: <Clock className="w-6 h-6" /> 
     },
